@@ -1,0 +1,274 @@
+{
+  "name": "Mini Projeto N2",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -384,
+        0
+      ],
+      "id": "4281cf60-f5bc-45b8-bf44-e71be620333a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UX7ZDbSl-42e0C7mES27vbD70eSheM-er_Dv_cXI2rA",
+          "mode": "list",
+          "cachedResultName": "Campanhas Exemplo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UX7ZDbSl-42e0C7mES27vbD70eSheM-er_Dv_cXI2rA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UX7ZDbSl-42e0C7mES27vbD70eSheM-er_Dv_cXI2rA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "c29c1053-2dab-4d81-affa-82a5573055e8",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HjCwFHLIBbt2CZ5W",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "maxItems": 6,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "1f584bba-f0db-45c7-a5fa-a30ff5716177",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "70a9f3a2-df5f-41c8-a075-eff9dd54a049",
+              "name": "cpa",
+              "value": "={{ ($json.gasto === '' || $json.gasto == null || !($json.conversoes > 0)) ? 'n/d' : ($json.gasto / $json.conversoes).toFixed(2) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        192,
+        0
+      ],
+      "id": "4adaa2f9-4cdd-4104-8118-fa6f8624fd87",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        368,
+        0
+      ],
+      "id": "38c7ea4e-008f-46a4-b890-f072aab82722",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um analista de mídia paga e escreve o resumo semanal para o gerente de marketing, que não é técnico e lê pelo celular.\n\n<dados>\n{{ JSON.stringify($json.data) }}\n</dados>\n\nTarefa: compare a semana mais recente com a semana anterior, canal por canal (Meta Ads, Google Ads, TikTok Ads), com foco no CPA.\n\nRegras:\n- Use apenas os números dos dados. Nunca invente.\n- O CPA já vem calculado no campo \"cpa\". Não recalcule.\n- Nas linhas dos canais, escreva só o CPA e a direção. Gasto e conversões aparecem apenas no ponto de atenção, quando explicam o problema.\n- \"n/d\" ou campo vazio significa dado faltando. Na linha do canal, escreva: CPA indisponível ([qual dado falta]).\n- Se houver só uma semana nos dados, mostre só o CPA atual de cada canal.\n\nFormato: use exatamente este modelo, com as linhas em branco onde aparecem:\n\n📊 Semana de [data mais recente] vs [data anterior]\n\nMeta Ads: CPA R$ [anterior] → R$ [atual] ([subiu/caiu/estável])\nGoogle Ads: CPA R$ [anterior] → R$ [atual] ([subiu/caiu/estável])\nTikTok Ads: CPA R$ [anterior] → R$ [atual] ([subiu/caiu/estável])\n\n⚠️ Ponto de atenção:\n[uma ou duas frases curtas explicando o principal problema, com os números que mostram a causa]\n\nSe houver só uma semana, a primeira linha fica:\n📊 Semana de [data] (sem semana anterior para comparar)\n\nDatas em dd/mm. Valores em R$ no formato brasileiro (ex.: R$ 1.260,00; R$ 36,00). Texto simples, sem markdown (sem asteriscos ou #).",
+        "messages": {
+          "messageValues": []
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -368,
+        160
+      ],
+      "id": "e9af010a-492d-4878-81b3-02a0ce2ac7ab",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-haiku-5-5",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 5.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.6,
+      "position": [
+        -448,
+        272.4609375
+      ],
+      "id": "145f7ede-6af3-4535-bbf6-1c44b89d0d8a",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "SEU_CHAT_ID",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        160
+      ],
+      "id": "27444535-3528-4206-8f26-3b8790416527",
+      "name": "Send a text message",
+      "webhookId": "45c6f4f2-89b8-471d-ba3d-08f9ff34333a",
+      "credentials": {
+        "telegramApi": {
+          "id": "R8jAmV9AXw3mLfK0",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b8318bdb-01e9-48fd-8c21-6ef7ccac3895",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf10664f426097c584f7fa0f80b85ba5542d3d360de8b224bbf01148b032c4df"
+  },
+  "nodeGroups": [],
+  "id": "agvB6NQaqnKRwvgP",
+  "tags": []
+}
