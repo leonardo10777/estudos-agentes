@@ -6,3 +6,5 @@ load_dotenv()
 
 print("Python:", sys.version.split()[0])
 print("Chave carregada?", "sim" if os.getenv("ANTHROPIC_API_KEY") else "não")
+
+print("Pasta atual:", os.getcwd())
