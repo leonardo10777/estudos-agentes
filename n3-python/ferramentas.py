@@ -5,6 +5,12 @@ import sqlite3
 BANCO = "campanhas.db"
 
 
+def listar_campanhas():
+    with sqlite3.connect(BANCO) as con:
+        linhas = con.execute("SELECT nome, canal FROM campanhas ORDER BY canal, nome").fetchall()
+    return [{"campanha": nome, "canal": canal} for nome, canal in linhas]
+
+
 def consultar_metricas(data_inicio, data_fim, canal=None, campanha=None):
     sql = """
         SELECT c.canal, c.nome, ROUND(SUM(m.gasto), 2), SUM(m.cliques), SUM(m.conversoes),
@@ -32,7 +38,26 @@ def consultar_metricas(data_inicio, data_fim, canal=None, campanha=None):
     ]
 
 
+def metricas_por_dia(campanha, data_inicio, data_fim):
+    sql = """
+        SELECT m.data, m.gasto, m.cliques, m.conversoes
+        FROM metricas_diarias m JOIN campanhas c ON c.id = m.campanha_id
+        WHERE c.nome = ? AND m.data BETWEEN ? AND ?
+        ORDER BY m.data
+    """
+    with sqlite3.connect(BANCO) as con:
+        linhas = con.execute(sql, (campanha, data_inicio, data_fim)).fetchall()
+    if not linhas:
+        raise ValueError(f"Campanha '{campanha}' sem dados nesse período.")
+    return [{"data": l[0], "gasto": l[1], "cliques": l[2], "conversoes": l[3]} for l in linhas]
+
+
 FERRAMENTAS = [
+    {
+        "name": "listar_campanhas",
+        "description": "Lista todas as campanhas e o canal de cada uma. Use para descobrir os nomes exatos.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
     {
         "name": "consultar_metricas",
         "description": "Soma gasto, cliques e conversões e calcula o CPA por campanha num período. "
@@ -43,14 +68,32 @@ FERRAMENTAS = [
                 "data_inicio": {"type": "string", "description": "AAAA-MM-DD"},
                 "data_fim": {"type": "string", "description": "AAAA-MM-DD"},
                 "canal": {"type": "string", "enum": ["Meta Ads", "Google Ads", "TikTok Ads"]},
-                "campanha": {"type": "string", "description": "Nome exato da campanha"},
+                "campanha": {"type": "string", "description": "Nome exato, como em listar_campanhas"},
             },
             "required": ["data_inicio", "data_fim"],
         },
     },
+    {
+        "name": "metricas_por_dia",
+        "description": "Mostra gasto, cliques e conversões dia a dia de UMA campanha. "
+                       "Use para descobrir quando um problema começou.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "campanha": {"type": "string"},
+                "data_inicio": {"type": "string", "description": "AAAA-MM-DD"},
+                "data_fim": {"type": "string", "description": "AAAA-MM-DD"},
+            },
+            "required": ["campanha", "data_inicio", "data_fim"],
+        },
+    },
 ]
 
-FUNCOES = {"consultar_metricas": consultar_metricas}
+FUNCOES = {
+    "listar_campanhas": listar_campanhas,
+    "consultar_metricas": consultar_metricas,
+    "metricas_por_dia": metricas_por_dia,
+}
 
 
 def executar_ferramenta(nome, entrada):
