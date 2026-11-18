@@ -75,4 +75,18 @@ Os dados têm dois problemas conhecidos, para testar se o agente encontra a caus
 
 ## Avaliação
 
-A taxa de acerto do agente será medida na sessão 26 e registrada aqui.
+10 perguntas, com o gabarito calculado em SQL **antes** de rodar o agente (`avaliar.py` gera o `resultados.csv`). Critério: número principal certo e nenhuma informação inventada.
+
+- Primeira rodada: 8/10 (80%).
+- Rodada final, depois de 2 correções: 9/10 (90%).
+
+### Correções
+1. **Pergunta 4 (ordem do ranking):** o agente pulou a Meta - Conversão ao citar o segundo e o terceiro lugares. A ferramenta devolvia tudo certo, então a causa era o texto do modelo. Acrescentei ao `SISTEMA` uma regra sobre citar rankings.
+2. **Pergunta 6 (dias sem conversão):** o modelo varria 450 linhas diárias (20.013 tokens na última volta) e errou o mínimo de conversões. Criei a ferramenta `dias_sem_conversao`. Resultado: 2 voltas, 1.537 tokens na última volta e custo de US$ 0,00040 (antes US$ 0,00277).
+
+## Limitações conhecidas
+- A pergunta 5 ainda erra uma frase secundária (disse que os dois períodos tinham "volume semelhante de dias": são 19 e 71 dias). Na primeira rodada essa pergunta saiu certa.
+- Números secundários que o modelo calcula sozinho podem diferir por arredondamento (51,43 em vez de 51,44 na pergunta 1).
+- As respostas variam entre execuções, e 10 perguntas são uma amostra pequena.
+- A coluna `impressoes` existe no banco, mas nenhuma ferramenta a expõe.
+- Só 5 campanhas, dados sintéticos e período fixo.

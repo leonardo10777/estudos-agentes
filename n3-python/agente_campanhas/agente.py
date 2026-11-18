@@ -22,6 +22,7 @@ SISTEMA = (
     "Nunca invente números. "
     "Se faltar dado (outro canal, outro período), diga claramente que a informação não está disponível. "
     "Quando a pergunta pedir um total, some os valores devolvidos pelas ferramentas. "
+    "Ao citar uma ordem ou ranking, inclua todos os itens na ordem certa ou cite só o primeiro colocado; nunca pule itens. "
     "Responda em português, em até 4 frases, com os números que sustentam a resposta."
 )
 

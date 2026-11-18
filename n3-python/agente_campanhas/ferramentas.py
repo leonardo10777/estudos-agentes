@@ -52,6 +52,18 @@ def metricas_por_dia(campanha, data_inicio, data_fim):
     return [{"data": l[0], "gasto": l[1], "cliques": l[2], "conversoes": l[3]} for l in linhas]
 
 
+def dias_sem_conversao(data_inicio, data_fim):
+    sql = """
+        SELECT c.nome, m.data, m.gasto
+        FROM metricas_diarias m JOIN campanhas c ON c.id = m.campanha_id
+        WHERE m.conversoes = 0 AND m.gasto > 0 AND m.data BETWEEN ? AND ?
+        ORDER BY c.nome, m.data
+    """
+    with sqlite3.connect(BANCO) as con:
+        linhas = con.execute(sql, (data_inicio, data_fim)).fetchall()
+    return [{"campanha": l[0], "data": l[1], "gasto": l[2]} for l in linhas]
+
+
 FERRAMENTAS = [
     {
         "name": "listar_campanhas",
@@ -87,12 +99,27 @@ FERRAMENTAS = [
             "required": ["campanha", "data_inicio", "data_fim"],
         },
     },
+    {
+        "name": "dias_sem_conversao",
+        "description": "Lista os dias em que uma campanha gastou mas teve zero conversões, "
+                       "de todas as campanhas, num período. Use para achar falhas de rastreamento. "
+                       "Datas no formato AAAA-MM-DD.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "data_inicio": {"type": "string", "description": "AAAA-MM-DD"},
+                "data_fim": {"type": "string", "description": "AAAA-MM-DD"},
+            },
+            "required": ["data_inicio", "data_fim"],
+        },
+    },
 ]
 
 FUNCOES = {
     "listar_campanhas": listar_campanhas,
     "consultar_metricas": consultar_metricas,
     "metricas_por_dia": metricas_por_dia,
+    "dias_sem_conversao": dias_sem_conversao,
 }
 
 
