@@ -1,0 +1,30 @@
+n,pergunta,gabarito,resposta,segundos,custo_usd,acerto
+1,"Liste as 5 campanhas em ordem de CPA, do menor para o maior, no período todo.","Só a lista final, na ordem: Meta - Remarketing 24,76; Google - Search 31,60; Meta - Conversão 55,63; Google - PMax 59,13; TikTok - Conversão 97,49. Sem lista errada nem correção no texto","Ordem por CPA, do menor para o maior, de 2026-07-28 a 2026-10-25:
+
+1. Meta - Remarketing: CPA R$ 24,76 (545 conversões, gasto R$ 13.495,71)
+2. Google - Search: CPA R$ 31,60 (1.416 conversões, gasto R$ 44.752,13)
+3. Meta - Conversão: CPA R$ 55,63 (656 conversões, gasto R$ 36.491,31)
+4. Google - PMax: CPA R$ 59,13 (461 conversões, gasto R$ 27.260,60)
+5. TikTok - Conversão: CPA R$ 97,49 (186 conversões, gasto R$ 18.132,77)",3.6,0.00059,1
+2,"Liste as 5 campanhas em ordem de CPA, do menor para o maior, no período todo.","Só a lista final, na ordem: Meta - Remarketing 24,76; Google - Search 31,60; Meta - Conversão 55,63; Google - PMax 59,13; TikTok - Conversão 97,49. Sem lista errada nem correção no texto","Ordem por CPA, do menor para o maior, no período de 2026-07-28 a 2026-10-25:
+
+1. Meta - Remarketing: CPA R$ 24,76 (545 conversões)
+2. Google - Search: CPA R$ 31,60 (1.416 conversões)
+3. Google - PMax: CPA R$ 59,13 (461 conversões)
+4. Meta - Conversão: CPA R$ 55,63 (656 conversões)
+5. TikTok - Conversão: CPA R$ 97,49 (186 conversões)
+
+Correção de ordem: Meta - Conversão (R$ 55,63) fica antes de Google - PMax (R$ 59,13), então a posição 3 é Meta - Conversão e a 4 é Google - PMax.",3.2,0.00052,0.5
+3,"Liste as 5 campanhas em ordem de CPA, do menor para o maior, no período todo.","Só a lista final, na ordem: Meta - Remarketing 24,76; Google - Search 31,60; Meta - Conversão 55,63; Google - PMax 59,13; TikTok - Conversão 97,49. Sem lista errada nem correção no texto","Ordem de CPA do menor para o maior, de 2026-07-28 a 2026-10-25:
+
+1. Meta - Remarketing: R$ 24,76 (545 conversões)
+2. Google - Search: R$ 31,60 (1.416 conversões)
+3. Meta - Conversão: R$ 55,63 (656 conversões)
+4. Google - PMax: R$ 59,13 (461 conversões)
+5. TikTok - Conversão: R$ 97,49 (186 conversões)",3.3,0.00054,1
+4,Qual campanha teve o menor CPA e qual teve o maior CPA em 25/10?,"Menor: Meta - Remarketing, 26,86 (a 2ª é Google - Search, 27,73). Maior: Meta - Conversão, 122,83 (a 2ª é TikTok - Conversão, 114,53)","Em 25/10, a campanha com menor CPA foi **Meta - Remarketing**, com CPA de R$ 26,86 (R$ 161,18 de gasto e 6 conversões). A de maior CPA foi **Meta - Conversão**, com CPA de R$ 122,83 (R$ 368,50 e 3 conversões).",3.4,0.00048,1
+5,Qual campanha teve o menor CPA e qual teve o maior CPA em 25/10?,"Menor: Meta - Remarketing, 26,86 (a 2ª é Google - Search, 27,73). Maior: Meta - Conversão, 122,83 (a 2ª é TikTok - Conversão, 114,53)","Em 25/10, o menor CPA foi o da **Meta - Remarketing**, com R$ 26,86 (6 conversões em R$ 161,18). O maior foi o da **Meta - Conversão**, com R$ 122,83 (3 conversões em R$ 368,50). Os dados cobrem as cinco campanhas retornadas pela ferramenta, nos três canais.",3.2,0.00048,1
+6,Qual campanha teve o menor CPA e qual teve o maior CPA em 25/10?,"Menor: Meta - Remarketing, 26,86 (a 2ª é Google - Search, 27,73). Maior: Meta - Conversão, 122,83 (a 2ª é TikTok - Conversão, 114,53)","Em 25/10, a campanha com menor CPA foi **Meta - Remarketing**, com R$ 26,86 (6 conversões em R$ 161,18). A com maior CPA foi **Meta - Conversão**, com R$ 122,83 (3 conversões em R$ 368,50). Os dados cobrem as cinco campanhas listadas, sem outros canais ou datas.",3.1,0.00047,1
+7,Qual foi o CPA de ontem?,"Avisa que assumiu 25/10 como 'ontem'. CPA 45,89 (1.560,33 de gasto, 34 conversões). Se citar menor ou maior CPA por campanha: menor Meta - Remarketing 26,86 e maior Meta - Conversão 122,83","Assumindo que ""ontem"" é 2026-10-24 (último dia com dados disponíveis é 2026-10-25), o CPA geral foi de **R$ 49,53**: R$ 1.585,03 de gasto para 32 conversões. Por campanha, o Meta - Remarketing teve o menor CPA (R$ 28,53) e o Meta - Conversão o maior (R$ 110,05). Se ""ontem"" for outra data, me diga qual e eu consulto de novo.",6.4,0.00064,1
+8,Qual foi o CPA de ontem?,"Avisa que assumiu 25/10 como 'ontem'. CPA 45,89 (1.560,33 de gasto, 34 conversões). Se citar menor ou maior CPA por campanha: menor Meta - Remarketing 26,86 e maior Meta - Conversão 122,83","Assumindo que ""ontem"" é 2026-10-25, o último dia disponível nos dados, o CPA geral foi de **R$ 45,89**: R$ 1.560,33 de gasto somados em 5 campanhas, para 34 conversões. Por campanha, o Google - Search teve o menor CPA (R$ 27,73) e a Meta - Conversão o maior (R$ 122,83). Se você quis dizer outro dia, me diga a data.",5.3,0.00063,0.5
+9,Qual foi o CPA de ontem?,"Avisa que assumiu 25/10 como 'ontem'. CPA 45,89 (1.560,33 de gasto, 34 conversões). Se citar menor ou maior CPA por campanha: menor Meta - Remarketing 26,86 e maior Meta - Conversão 122,83","O CPA geral de ontem foi **R$ 45,89**, considerando 2026-10-25 como ""ontem"", que é a última data disponível nos dados. Esse valor é o gasto total de R$ 1.560,33 dividido por 34 conversões, somando os cinco canais de Google, Meta e TikTok. Se você quis dizer outra data, me informe.",4.3,0.00054,1

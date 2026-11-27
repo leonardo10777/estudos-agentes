@@ -2,9 +2,16 @@
 import json
 import sqlite3
 from pathlib import Path
+from datetime import date
 
 BANCO = Path(__file__).parent.parent / "n3-python" / "agente_campanhas" / "campanhas.db"
 
+
+def validar_data(texto, campo):
+    try:
+        date.fromisoformat(texto)
+    except ValueError:
+        raise ValueError(f"{campo} inválida: '{texto}'. Use o formato AAAA-MM-DD.")
 
 def listar_campanhas():
     with sqlite3.connect(BANCO) as con:
@@ -13,6 +20,10 @@ def listar_campanhas():
 
 
 def consultar_metricas(data_inicio, data_fim, canal=None, campanha=None):
+    
+    validar_data(data_inicio, "data_inicio")
+    validar_data(data_fim, "data_fim")
+    
     sql = """
         SELECT c.canal, c.nome, ROUND(SUM(m.gasto), 2), SUM(m.cliques), SUM(m.conversoes),
                ROUND(SUM(m.gasto) / NULLIF(SUM(m.conversoes), 0), 2)
@@ -40,6 +51,10 @@ def consultar_metricas(data_inicio, data_fim, canal=None, campanha=None):
 
 
 def metricas_por_dia(campanha, data_inicio, data_fim):
+    
+    validar_data(data_inicio, "data_inicio")
+    validar_data(data_fim, "data_fim")
+        
     sql = """
         SELECT m.data, m.gasto, m.cliques, m.conversoes
         FROM metricas_diarias m JOIN campanhas c ON c.id = m.campanha_id
@@ -54,6 +69,10 @@ def metricas_por_dia(campanha, data_inicio, data_fim):
 
 
 def dias_sem_conversao(data_inicio, data_fim):
+    
+    validar_data(data_inicio, "data_inicio")
+    validar_data(data_fim, "data_fim")
+        
     sql = """
         SELECT c.nome, m.data, m.gasto
         FROM metricas_diarias m JOIN campanhas c ON c.id = m.campanha_id
